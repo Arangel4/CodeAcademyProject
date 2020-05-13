@@ -1,9 +1,18 @@
-const bedSchema = new Schema({
-    bedAvailability: { type: "Number"},
-    changedBy: {type: "String", default: "Administration"},
-    changedDateTime: {type: "Date"},
-    addedDateTime: {type: "Date"}
-});
+import mongoose from "mongoose";
+import Entity from "./entities.js";
+
+export default class Beds {
+    // Defined static properties pertaining to the schema and model of this entity type.
+    static schema = new mongoose.Schema({
+        bedAvailability: { type: "Number"},
+        changedBy: {type: "String", default: "Administration"},
+        changedDateTime: {type: "Date"},
+        addedDateTime: {type: "Date"}
+    });
+
+    static model = mongoose.model("Bed", Beds.schema, "Beds");
+}
+    
 
 const addBeds = async(bedObj) => {
     try {
