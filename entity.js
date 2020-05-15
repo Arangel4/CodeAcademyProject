@@ -1,18 +1,17 @@
+ // This Entity class will serve as the parent class for all model-like children classes.
 export default class Entity {
-    // This Entity class will serve as the parent class for all model-like children classes (in this case, Person).
-
-    // Define the 4 CRUD functions as statically available properties.
-    // Define a CREATE function
+    // Defined below are the 4 CRUD functions.
+    // CREATE function
     static async create(theProperties) {
         // Assume that theProperties parameter is a JSON object containing the properties to use in creating a document.
         try {
             // Instantiate a new model of whatever the child class is representing.
             let newModel = new this.model();
-            // Get all of the properties in theProperties parameter and assign them to the new model object..
+            // Get all of the properties in theProperties parameter and assign them to the new model object.
             for (let [key, value] of Object.entries(theProperties)) {
                 newModel[key] = value;
             }
-            // Now save the Mongoose model.
+            // Save the Mongoose model.
             return newModel.save();
         }
         catch (err) {
@@ -20,7 +19,7 @@ export default class Entity {
         }
     }
 
-    // Define READ function
+    // READ function
     static async read(filter, relationshipsToPopulate) {
         // filter is a JSON object to actually filter model.find()
         // relationshipsToPopulate is an array of the names of the properties that contain the linking relationships for this model.
@@ -45,7 +44,7 @@ export default class Entity {
         }
     }
 
-    // Define UPDATE function
+    // UPDATE function
     static async update(theDocToBeUpdated, theUpdatedInfo) {
         // theDocToBeUpdated is an actual Mongoose Document Model object (like something return from a read() or create())
         // theUpdatedInfo is JSON object that contains the properties and values to be modified.
@@ -61,7 +60,7 @@ export default class Entity {
         }
     }
 
-    // Define DELETE function
+    // DELETE function
     static async delete(theActualDoc) {
         // theActualDoc is an actual Mongoose Document Model object (like what is returned from create(), read(), even update())
         try {

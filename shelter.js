@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import Entity from "./entities.js";
+import Entity from "./entity.js";
 
-export default class Shelter {
+export default class Shelter extends Entity{
     // Defined static properties pertaining to the schema and model of this entity type.
     static schema = new mongoose.Schema({
         shelterName: { type: "String" },
@@ -22,6 +22,8 @@ export default class Shelter {
 
     static model = mongoose.model("Shelter", Shelter.schema, "Shelters");
 }
+
+
 
 // const getAll = async() => {
 //     try {

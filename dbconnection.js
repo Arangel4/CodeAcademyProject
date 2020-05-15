@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { truncate } from 'fs';
 
 class DBConnection {
     constructor() {
