@@ -1,27 +1,27 @@
 import mongoose from "mongoose";
 import Entity from './entity.js';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 
 export default class User extends Entity{
     // Defined static properties pertaining to the schema and model of this entity type.
     static schema = new mongoose.Schema({
         administration: [{ type: mongoose.Schema.Types.ObjectId, ref: "Shelter"}],
-        userName: { type: "String" },
-        userPassword: { type: "String" },
+        userName: { type: "String", required: true },
+        userPassword: { type: "String", required: true },
         passwordSetDate: { type: "Date" },
         requestedPasswordChange: { type: "Boolean" },
         resetPasswordToken: { type: "String" },
         salt: { type: "String" },
         isAdministration: { type: "Boolean" },
         isDisabled: { type: "Boolean" },
-        firstName: { type: "String" },
-        lastName: { type: "String" },
-        phoneNumber: { type: "String" },
-        emailAddress: { type: "String" },
+        firstName: { type: "String", required: true },
+        lastName: { type: "String", required: true },
+        phoneNumber: { type: "String", required: true },
+        emailAddress: { type: "String", required: true },
         changedBy: { type: "String", default: "Administration" },
-        changedDateTime: { type: "Date" },
+        changedDateTime: { type: "Date", default: new Date() },
         addedBy: { type: "String" },
-        addedDateTime: { type: "Date" }
+        addedDateTime: { type: "Date", default: new Date() }
     });
 
     static async generateHash(theString) {

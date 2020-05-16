@@ -4,24 +4,24 @@ import Entity from "./entity.js";
 export default class Shelter extends Entity{
     // Defined static properties pertaining to the schema and model of this entity type.
     static schema = new mongoose.Schema({
-        shelterName: { type: "String" },
+        shelterName: { type: "String", required: true },
         shelterAdmin: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-        phoneNumber: { type: "String" },
-        timeOpen: { type: "String" },
-        timeClose: { type: "String" },
-        address: { type: "String" },
-        city: { type: "String" },
-        state: { type: "String" },
-        zip: { type: "Number" },
-        county: { type: "String" },
-        isActive: { type: "Boolean" },
-        shelterDescription: { type: "String" },
-        totalBeds: { type: "Number" },
-        bedsAvailable: { type: "Number" },
+        phoneNumber: { type: "String", required: true },
+        timeOpen: { type: "String", required: true },
+        timeClose: { type: "String", required: true },
+        address: { type: "String", required: true },
+        city: { type: "String", required: true },
+        state: { type: "String", required: true },
+        zip: { type: "Number", required: true },
+        county: { type: "String", required: true },
+        isActive: { type: "Boolean", required: true },
+        shelterDescription: { type: "String", required: true },
+        totalBeds: { type: "Number", required: false },
+        bedsAvailable: { type: "Number", required: false },
         addedBy: { type: "String" },
         changedBy: { type: "String", default: "Administration" },
-        changedDateTime: { type: "Date" },
-        addedDateTime: { type: "Date" }
+        changedDateTime: { type: "Date", default: new Date() },
+        addedDateTime: { type: "Date", default: new Date() }
     });
 
     static model = mongoose.model("Shelter", Shelter.schema, "Shelters");

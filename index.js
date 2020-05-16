@@ -11,7 +11,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 
 // Bringing in bcrypt
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 
 const app = express();  // The actual web server
 const port = 3000;  // Port Express listening on.
@@ -40,7 +40,7 @@ app.get("/shelters", async(req, res) => {
 });
 
 // GET endpoint that returns one User document based on ID.
-app.get("/user/:userId", async(req, res) => {   // ":userId" is a url parameter, in this case, the ID of a specific User document.
+app.get("/users/:userId", async(req, res) => {   // ":userId" is a url parameter, in this case, the ID of a specific User document.
     try {
         // Get the ID from the url request.
         let id = req.params.userId
@@ -56,7 +56,7 @@ app.get("/user/:userId", async(req, res) => {   // ":userId" is a url parameter,
 });
 
 // GET endpoint that returns one Shelter document based on ID.
-app.get("/shelter/:shelterId", async(req, res) => {   // ":shelterId" is a url parameter, in this case, the ID of a specific Shelter document.
+app.get("/shelters/:shelterId", async(req, res) => {   // ":shelterId" is a url parameter, in this case, the ID of a specific Shelter document.
     try {
         // Get the ID from the url request.
         let id = req.params.shelterId
@@ -72,7 +72,7 @@ app.get("/shelter/:shelterId", async(req, res) => {   // ":shelterId" is a url p
 });
 
 // // POST endpoint that will create a User document
-app.post("/user", async(req, res) => {
+app.post("/users", async(req, res) => {
     try {
 // **************************************************DELETE TEST CODE BEFORE TURN IN!!*****************************
         // CHECK CODE WITH THE FOLLOWING CODE BELOW!
@@ -120,14 +120,16 @@ app.post("/user", async(req, res) => {
     }
 });
 
-app.post("/user/authenticate", async(req, res) => {
+app.post("/users/authenticate", async(req, res) => {
     try {
         // Take the userName a userPassword of the request body
         if (req.body.userName && req.body.userPassword) {
             let theUserName = req.body.userName;
+            
             let theUserPassword = req.body.userPassword;
             // Get the User document that matches with the given username.
             let theUserDocs = await User.read({ userName: theUserName });
+            console.log(theUserDocs);
             let theUserDoc = theUserDocs[0];    // Should be only one document in the User collection with the given username.
             let authResult = await User.authenticate(theUserPassword, theUserDoc);
             res.send({ auth: authResult });
@@ -140,7 +142,7 @@ app.post("/user/authenticate", async(req, res) => {
 });
 
 // // POST endpoint that will create a Shelter document
-app.post("/shelter", async(req, res) => {
+app.post("/shelters", async(req, res) => {
     try {
         if( req.body.shelterName
             && req.body.phoneNumber
@@ -181,7 +183,7 @@ app.post("/shelter", async(req, res) => {
 });
 
 // PUT endpoint for updating an existing User document
-app.put("/user/:userId", async(req, res) => {
+app.put("/users/:userId", async(req, res) => {
     try {
         // Get the id.
         let id = req.params.userId;
@@ -215,7 +217,7 @@ app.put("/user/:userId", async(req, res) => {
 });
 
 // PUT endpoint for updating an existing Shelter document
-app.put("/shelter/:shelterId", async(req, res) => {
+app.put("/shelters/:shelterId", async(req, res) => {
     try {
         // Get the id.
         let id = req.params.shelterId;
@@ -275,7 +277,7 @@ app.put("/shelter/:shelterId", async(req, res) => {
 });
 
 // DELETE endpoint that will delete one User Document
-app.delete("/user/:userId", async(req, res) => {
+app.delete("/users/:userId", async(req, res) => {
     try {
         // Get the id 
         let id = req.params.userId;
@@ -294,7 +296,7 @@ app.delete("/user/:userId", async(req, res) => {
 });
 
 // DELETE endpoint that will delete one Shelter Document
-app.delete("/shelter/:shelterId", async(req, res) => {
+app.delete("/shelters/:shelterId", async(req, res) => {
     try {
         // Get the id 
         let id = req.params.shelterId;
