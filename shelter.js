@@ -14,7 +14,11 @@ export default class Shelter extends Entity{
         state: { type: "String" },
         zip: { type: "Number" },
         county: { type: "String" },
-        active: { type: "Boolean" },
+        isActive: { type: "Boolean" },
+        shelterDescription: { type: "String" },
+        totalBeds: { type: "Number" },
+        bedsAvailable: { type: "Number" },
+        addedBy: { type: "String" },
         changedBy: { type: "String", default: "Administration" },
         changedDateTime: { type: "Date" },
         addedDateTime: { type: "Date" }

@@ -1,9 +1,9 @@
  // This Entity class will serve as the parent class for all model-like children classes.
 export default class Entity {
-    // Defined below are the 4 CRUD functions.
+    // Defined below are the 4 CRUD functions that will be used throughout the database.
     // CREATE function
     static async create(theProperties) {
-        // Assume that theProperties parameter is a JSON object containing the properties to use in creating a document.
+        // theProperties parameter will take in a JSON object containing the all the properties to use in creating a new document.
         try {
             // Instantiate a new model of whatever the child class is representing.
             let newModel = new this.model();

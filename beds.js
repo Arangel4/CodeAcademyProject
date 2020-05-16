@@ -7,8 +7,7 @@ export default class Beds extends Entity{
     static schema = new mongoose.Schema({
         bedAvailability: { type: "Number"},
         updatedBedAvailability: { type: "Number" },
-        changedBy: {type: "String", default: "Administration"},
-        changedDateTime: {type: "Date"},
+        addedBy: { type: "String" },
         addedDateTime: {type: "Date"}
     });
 
