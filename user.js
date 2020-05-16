@@ -30,7 +30,7 @@ export default class User extends Entity{
         const saltRounds = 10;
         let salt = await bcrypt.genSalt(saltRounds);    // Get the salt value out of the returned Promise genSalt();
         // Use the generated salt for encrypting the passed in string.
-        let hash = await bcrypt.hash(theString, salt);
+        let hash = await bcrypt.hash(theString, salt);  // Does the actual encryption of the given string.
         return { salt: salt, encryptedString: hash };
     }
 
@@ -38,7 +38,7 @@ export default class User extends Entity{
     static async authenticate(givenPassword, theUserDoc) {
         // Assume givenPassword is what the user typed in, and assume thePersonDoc is the actual User Document found for the given username. ******NOTE: Make sure that you enforce unique usernames
         let salt = theUserDoc.salt;
-        let encryptedPassword = theUserDoc.password;
+        let encryptedPassword = theUserDoc.userPassword;
 
         const match = await bcrypt.compare(givenPassword, encryptedPassword);
         return match;   // True for a match, false if they don't match.

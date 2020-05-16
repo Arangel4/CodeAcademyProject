@@ -27,17 +27,6 @@ export default class Shelter extends Entity{
     static model = mongoose.model("Shelter", Shelter.schema, "Shelters");
 }
 
-
-
-// const getAll = async() => {
-//     try {
-//         return Shelter.find().exec();
-//     }
-//     catch (err) {
-//         console.log(err);
-//     }
-// }
-
 // const getShelterBySearch = async(searchCriteriaObj) => {
 //     try {
 //         return Shelter.find(searchCriteriaObj).exec();
