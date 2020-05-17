@@ -1,6 +1,7 @@
 // Bring in the MongoDB Connection import
 import './dbconnection.js';
-
+// Bring in passport.js, so Passport gets configured
+import './passport.js';
 // Import the entities to test.
 import User from './user.js';
 import Shelter from './shelter.js';
@@ -9,6 +10,12 @@ import Beds from './beds.js';
 // Bringing in Express and Body-Parser
 import express from 'express';
 import bodyParser from 'body-parser';
+
+// Bring in Passport
+import passport from 'passport';
+
+// Will be creating actual JWTs upon successful authentication, so import jsonwebtoken package.
+import JWT from 'jsonwebtoken';
 
 // Bringing in bcrypt
 import bcrypt from 'bcrypt';
@@ -128,15 +135,27 @@ app.post("/users/authenticate", async(req, res) => {
     try {
         // Take the userName a userPassword of the request body
         if (req.body.userName && req.body.userPassword) {
-            let theUserName = req.body.userName;
-            
-            let theUserPassword = req.body.userPassword;
-            // Get the User document that matches with the given username.
-            let theUserDocs = await User.read({ userName: theUserName });
-            console.log(theUserDocs);
-            let theUserDoc = theUserDocs[0];    // Should be only one document in the User collection with the given username.
-            let authResult = await User.authenticate(theUserPassword, theUserDoc);
-            res.send({ auth: authResult });
+            // Santitize data first.***********************************************************************
+            // Make Passport perform the authentication
+            // NOTE: since using JWTs for authentication, we will not use server side sessions, so { session: false }
+            passport.authenticate("local", { session: false }, (err, user, info) => {
+                // Check to see if authenticate() had any issues, so check err and user
+                if (err || !user) {
+                    return res.status(400).json({
+                        message: "Authentication was unsuccessful.",
+                        user: user
+                    });
+                }
+                // Assuming no issues, login the user via Passport
+                req.login(user, { session: false }, (err) => {
+                    if (err) {
+                        res.send(err);
+                    }
+                    // If no error, generate the JWT to signify the user logged in successfully.
+                    const token = JWT.sign(user.toJSON(), 'ThisNeedsToBeAStrongPasswordPleaseChange');
+                    return res.json({user, token});
+                });
+            }) (req, res);   // NOTE: Passing req and res to the next middleware.
         }
     }
     catch (err) {
@@ -146,7 +165,8 @@ app.post("/users/authenticate", async(req, res) => {
 });
 
 // // POST endpoint that will create a Shelter document
-app.post("/shelters", async(req, res) => {
+// Modify this particular endpoint so that it uses JWT authorization. (You must be logged in to use this endpoint.)
+app.post("/shelters", passport.authenticate("jwt", { session: false }), async(req, res) => {
     try {
         if( req.body.shelterName
             && req.body.phoneNumber
