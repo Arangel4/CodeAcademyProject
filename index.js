@@ -90,6 +90,8 @@ app.post("/users", async(req, res) => {
             && req.body.lastName
             && req.body.phoneNumber
             && req.body.emailAddress
+            && req.body.isAdministration
+            && req.body.isDisabled
             && req.body.userName
             && req.body.userPassword) { 
                 // Get the encrypted password and salt (object)
@@ -105,6 +107,8 @@ app.post("/users", async(req, res) => {
                 lastName: req.body.lastName,
                 phoneNumber: req.body.phoneNumber,
                 emailAddress: req.body.emailAddress,
+                isDisabled: req.body.isDisabled,
+                isAdministration: req.body.isAdministration,
                 userName: req.body.userName,
                 userPassword: encryptedPassword, // Storing the encrypted form of the password.
                 salt: salt
@@ -205,6 +209,12 @@ app.put("/users/:userId", async(req, res) => {
         }
         if (req.body.emailAddress) {
             updateUserInfo["emailAddress"] = req.body.emailAddress;
+        }
+        if (req.body.userName) {
+            updateUserInfo["userName"] = req.body.userName;
+        }
+        if (req.body.userPassword) {
+            updateUserInfo["userPassword"] = req.body.userPassword;
         }
         // Performs the update
         let updateUserDoc = await User.update(userDoc, updateUserInfo);
