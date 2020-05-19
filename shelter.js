@@ -1,11 +1,13 @@
 import mongoose from "mongoose";
 import Entity from "./entity.js";
+import Beds from './beds.js';
 
 export default class Shelter extends Entity{
     // Defined static properties pertaining to the schema and model of this entity type.
     static schema = new mongoose.Schema({
         shelterName: { type: "String", required: true },
         shelterAdmin: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+        beds: [{ type: mongoose.Schema.Types.ObjectId, ref: "Beds" }],
         phoneNumber: { type: "String", required: true },
         timeOpen: { type: "String", required: true },
         timeClose: { type: "String", required: true },
@@ -16,9 +18,9 @@ export default class Shelter extends Entity{
         county: { type: "String", required: true },
         isActive: { type: "Boolean", required: true },
         shelterDescription: { type: "String", required: true },
-        totalBeds: { type: "Number", required: false },
-        bedsAvailable: { type: "Number", required: false },
-        addedBy: { type: "String" },
+        totalBeds: { type: "Number" },
+        bedsAvailable: { type: "Number" },
+        addedBy: { type: "String", default: "Administration" },
         changedBy: { type: "String", default: "Administration" },
         changedDateTime: { type: "Date", default: new Date() },
         addedDateTime: { type: "Date", default: new Date() }
@@ -26,51 +28,3 @@ export default class Shelter extends Entity{
 
     static model = mongoose.model("Shelter", Shelter.schema, "Shelters");
 }
-
-// const getShelterBySearch = async(searchCriteriaObj) => {
-//     try {
-//         return Shelter.find(searchCriteriaObj).exec();
-//     }
-//     catch (err) {
-//         console.log(err);
-//     }
-// }
-
-// const addShelter = async(shelterObj) => {
-//     try {
-//         const newShelter = new Shelter(shelterObj);
-//         let savePromise = newShelter.save();
-//         savePromise.then((newShelterDoc) => {
-//             console.log(`The Shelter doc has been saved with the ID of ${newShelterDoc.id}`);
-//         });
-//     }
-//     catch (err) {
-//         console.log(err);
-//     }
-// }
-
-// const updateShelter = async(id) => {
-//     try {
-//         let foundShelterDoc = await Shelter.findById(id).exec();
-//         foundShelterDoc.height = 88;
-//         let updatePromise = foundShelterDoc.save();
-//         updatePromise.then((theUpdatedShelter) => {
-//             console.log(`Updated Shelter document with the ID of ${theUpdatedShelter.id}`);
-//         });
-//     }
-//     catch (err) {
-//         console.log(err);
-//     }
-// }
-
-// const deleteShelter = async(theActualShelterDocObj) => {
-//     try {
-//         let deletePromise = theActualShelterDocObj.deleteOne();
-//         deletePromise.then(() => {
-//             console.log(`The Shelter document with ID ${theActualShelterDocObj.id} has been deleted.`);
-//         });
-//     }
-//     catch (err) {
-//         console.log(err);
-//     }
-// }

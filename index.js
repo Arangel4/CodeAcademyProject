@@ -81,17 +81,6 @@ app.get("/shelters/:shelterId", async(req, res) => {   // ":shelterId" is a url 
 // // POST endpoint that will create a User document
 app.post("/users", async(req, res) => {
     try {
-// **************************************************DELETE TEST CODE BEFORE TURN IN!!*****************************
-        // CHECK CODE WITH THE FOLLOWING CODE BELOW!
-        // console.log(`req.body.firstName = ${req.body.firstName}`);
-        // console.log(`req.body.lastName = ${req.body.lastName}`);
-        // console.log(`req.body.phoneNumber = ${req.body.phoneNumber}`);
-        // console.log(`req.body.emailAddress = ${req.body.emailAddress}`);
-        // console.log(`req.body = ${req.body}`);
-        // for (let [key, value] of Object.entries(req.body)) {
-        //     console.log(`req.body[${key}] = ${value}`);
-        // }
-
         // Checking to see if the values came in on the POST.
         if( req.body.firstName
             && req.body.lastName
@@ -135,7 +124,6 @@ app.post("/users/authenticate", async(req, res) => {
     try {
         // Take the userName a userPassword of the request body
         if (req.body.userName && req.body.userPassword) {
-            // Santitize data first.***********************************************************************
             // Make Passport perform the authentication
             // NOTE: since using JWTs for authentication, we will not use server side sessions, so { session: false }
             passport.authenticate("local", { session: false }, (err, user, info) => {
@@ -235,6 +223,9 @@ app.put("/users/:userId", async(req, res) => {
         }
         if (req.body.userPassword) {
             updateUserInfo["userPassword"] = req.body.userPassword;
+        }
+        if (req.body.isDisabled) {
+            updateUserInfo["isDisabled"] = req.body.isDisabled;
         }
         // Performs the update
         let updateUserDoc = await User.update(userDoc, updateUserInfo);

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Shelter from './shelter.js';
 import Entity from './entity.js';
 import bcrypt from 'bcrypt';
 
@@ -20,9 +21,11 @@ export default class User extends Entity{
         emailAddress: { type: "String", required: true },
         changedBy: { type: "String", default: "Administration" },
         changedDateTime: { type: "Date", default: new Date() },
-        addedBy: { type: "String" },
+        addedBy: { type: "String", default: "Administration"},
         addedDateTime: { type: "Date", default: new Date() }
     });
+
+    
 
     static async generateHash(theString) {
         // Bcrypt is used to first generate a part of the encryption: the salt
