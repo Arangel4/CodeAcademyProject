@@ -17,6 +17,9 @@ import passport from 'passport';
 // Will be creating actual JWTs upon successful authentication, so import jsonwebtoken package.
 import JWT from 'jsonwebtoken';
 
+// CORS
+import cors from 'cors';
+
 // Bringing in bcrypt
 import bcrypt from 'bcrypt';
 
@@ -26,6 +29,8 @@ const port = 3000;  // Port Express listening on.
 // Using the bodyparder middleware in Express
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // Allows us to work with x-www-url-encoded data (used primarily in JSON Web Token authentication processes)
+// Add the CORS middleware
+app.use(cors());
 
 // Allows Express to listen for HTTP traffic.
 app.listen(port, () => {
