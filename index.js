@@ -117,8 +117,12 @@ app.post("/users", async(req, res) => {
             // Create the User document.
             let newUser = await User.create(newUserInfo);
             res.send({ message: "User created successfully", newUser });
-        }
-    }
+        } else {
+            return res.status(400).json({
+                message: "Error!"
+            });
+        } 
+    } 
     catch(err){
         console.log(err);
         res.send(err);
@@ -136,19 +140,24 @@ app.post("/users/authenticate", async(req, res) => {
                 if (err || !user) {
                     return res.status(400).json({
                         message: "Authentication was unsuccessful.",
-                        user: user
+                        // user: user
                     });
                 }
                 // Assuming no issues, login the user via Passport
                 req.login(user, { session: false }, (err) => {
                     if (err) {
-                        res.send(res);
+                        res.send(err);
+                        return res;
                     }
                     // If no error, generate the JWT to signify the user logged in successfully.
                     const token = JWT.sign(user.toJSON(), 'ThisNeedsToBeAStrongPasswordPleaseChange');
                     return res.json({user, token});
                 });
             }) (req, res);   // NOTE: Passing req and res to the next middleware.
+        } else {
+            return res.status(400).json({
+                message: "Error!"
+            });
         }
     }
     catch (err) {
