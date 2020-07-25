@@ -142,7 +142,7 @@ app.post("/users/authenticate", async(req, res) => {
                 // Assuming no issues, login the user via Passport
                 req.login(user, { session: false }, (err) => {
                     if (err) {
-                        res.send(err);
+                        res.send(res);
                     }
                     // If no error, generate the JWT to signify the user logged in successfully.
                     const token = JWT.sign(user.toJSON(), 'ThisNeedsToBeAStrongPasswordPleaseChange');
